@@ -123,10 +123,18 @@ pub fn parse_package_info(tval: TV) -> Result<PM::PackageInfo> {
         TV::Table(mut table) => {
             check_for_required_field_names(&table, &["name"])?;
             let hook_names = package_hooks::custom_package_info_fields();
-            let known_names = ["name", "authors", "license", EDITION_NAME, "flavor"]
-                .into_iter()
-                .chain(hook_names.iter().map(|s| s.as_str()))
-                .collect::<Vec<_>>();
+            let known_names = [
+                "name",
+                "authors",
+                "license",
+                EDITION_NAME,
+                "flavor",
+                "published-at",
+                "version",
+            ]
+            .into_iter()
+            .chain(hook_names.iter().map(|s| s.as_str()))
+            .collect::<Vec<_>>();
             warn_if_unknown_field_names(&table, known_names.as_slice());
             let name = table
                 .remove("name")
